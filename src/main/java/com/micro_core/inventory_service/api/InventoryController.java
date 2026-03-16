@@ -1,5 +1,6 @@
 package com.micro_core.inventory_service.api;
 
+import com.micro_core.inventory_service.dto.request.StockRequestDto;
 import com.micro_core.inventory_service.dto.response.StockResponseDto;
 import com.micro_core.inventory_service.service.StockService;
 import lombok.RequiredArgsConstructor;
@@ -16,12 +17,12 @@ public class InventoryController {
 
     @PostMapping("/update-stock")
     @ResponseStatus(HttpStatus.OK)
-    public void updateStock(@RequestParam Long productId, @RequestParam Integer quantity){
-        stockService.stockUpdate(productId, quantity);
+    public void updateStock(@RequestBody List<StockRequestDto> stockRequestDtoList){
+        stockService.stockUpdate(stockRequestDtoList);
     }
 
     @GetMapping
-    public List<StockResponseDto> getStock(@RequestParam  List<Long> productId){
+    public List<StockResponseDto> getStock(@RequestBody  List<Long> productId){
         return stockService.getStock(productId);
     }
 }

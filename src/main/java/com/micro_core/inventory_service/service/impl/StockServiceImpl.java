@@ -1,5 +1,6 @@
 package com.micro_core.inventory_service.service.impl;
 
+import com.micro_core.inventory_service.dto.request.StockRequestDto;
 import com.micro_core.inventory_service.dto.response.StockResponseDto;
 import com.micro_core.inventory_service.entity.Stock;
 import com.micro_core.inventory_service.repo.StockRepo;
@@ -19,22 +20,25 @@ public class StockServiceImpl implements StockService {
 
     @Override
     @Transactional
-    public void stockUpdate(Long productId, Integer quantity) {
-        Stock stock = stockRepo.findByProductId(productId)
-                        .orElse(Stock.builder()
-                        .productId(productId)
-                        .quantity(0)
-                        .build());
-        stockRepo.save(stock);
+    public void stockUpdate(List<StockRequestDto> stockRequestDto) {
 
-        int newQuantity = stock.getQuantity() + quantity;
+        for(StockRequestDto  item : stockRequestDto){
+            Stock stock = stockRepo.findByProductId(item.getProductId())
+                    .orElse(Stock.builder()
+                            .productId(item.getProductId())
+                            .quantity(0)
+                            .build());
 
-        if (newQuantity < 0) {
-            throw new RuntimeException("Insufficient stock! Available: " + stock.getQuantity() + ", Requested: " + Math.abs(quantity));
+            int newQuantity = stock.getQuantity() + item.getQuantity();
+
+            if (newQuantity < 0) {
+                throw new RuntimeException("Insufficient stock! Available: " + stock.getQuantity() + ", Requested: " + Math.abs(item.getQuantity()));
+            }
+
+            stock.setQuantity(newQuantity);
+            stockRepo.save(stock);
         }
 
-        stock.setQuantity(newQuantity);
-        stockRepo.save(stock);
     }
 
     @Override
