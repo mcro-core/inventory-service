@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface StockRepo extends JpaRepository<Stock, Long> {
-    Optional<Stock> findBySku(String sku);
+    Optional<Stock> findByProductId(Long productId);
 
-    List<Stock> findBySkuIn(List<String> sku);
+    List<Stock> findByProductIdIn(List<Long> productId);
 }

@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class StockResponseDto {
-    private String sku;
+    private Long productId;
     private Integer quantity;
     private boolean isInStock;
 }

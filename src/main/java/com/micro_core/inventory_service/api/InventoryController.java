@@ -16,12 +16,12 @@ public class InventoryController {
 
     @PostMapping("/update-stock")
     @ResponseStatus(HttpStatus.OK)
-    public void updateStock(@RequestParam String skuCode, @RequestParam Integer quantity){
-        stockService.stockUpdate(skuCode, quantity);
+    public void updateStock(@RequestParam Long productId, @RequestParam Integer quantity){
+        stockService.stockUpdate(productId, quantity);
     }
 
     @GetMapping
-    public List<StockResponseDto> getStock(@RequestParam  List<String> skuCode){
-        return stockService.getStock(skuCode);
+    public List<StockResponseDto> getStock(@RequestParam  List<Long> productId){
+        return stockService.getStock(productId);
     }
 }

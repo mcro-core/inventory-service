@@ -8,6 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class StockRequestDto {
-    private String sku;
+    private Long productId;
     private Integer quantity;
 }

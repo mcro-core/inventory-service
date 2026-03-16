@@ -19,22 +19,29 @@ public class StockServiceImpl implements StockService {
 
     @Override
     @Transactional
-    public void stockUpdate(String skuCode, Integer quantity) {
-        Stock stock = stockRepo.findBySku(skuCode)
+    public void stockUpdate(Long productId, Integer quantity) {
+        Stock stock = stockRepo.findByProductId(productId)
                         .orElse(Stock.builder()
-                        .sku(skuCode)
+                        .productId(productId)
                         .quantity(0)
                         .build());
-        stock.setQuantity(stock.getQuantity() + quantity);
+        stockRepo.save(stock);
+
+        int newQuantity = stock.getQuantity() + quantity;
+
+        if (newQuantity < 0) {
+            throw new RuntimeException("Insufficient stock! Available: " + stock.getQuantity() + ", Requested: " + Math.abs(quantity));
+        }
+
+        stock.setQuantity(newQuantity);
         stockRepo.save(stock);
     }
 
     @Override
-    public List<StockResponseDto> getStock(List<String> skuCodes) {
-
-        return stockRepo.findBySkuIn(skuCodes).stream()
+    public List<StockResponseDto> getStock(List<Long> productId) {
+        return stockRepo.findByProductIdIn(productId).stream()
                 .map(stock -> StockResponseDto.builder()
-                        .sku(stock.getSku())
+                        .productId(stock.getProductId())
                         .isInStock(stock.getQuantity() > 0)
                         .quantity(stock.getQuantity())
                         .build()

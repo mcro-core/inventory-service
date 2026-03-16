@@ -17,7 +17,7 @@ public class Stock {
     private Long id;
 
     @Column(unique = true, nullable = false)
-    private String sku;
+    private Long productId;
 
     @Column(nullable = false)
     private Integer quantity;
