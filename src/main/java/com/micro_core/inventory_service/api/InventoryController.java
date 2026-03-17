@@ -21,8 +21,15 @@ public class InventoryController {
         stockService.stockUpdate(stockRequestDtoList);
     }
 
-    @GetMapping
+    @PostMapping("/get-stock-list")
     public List<StockResponseDto> getStock(@RequestBody  List<Long> productId){
         return stockService.getStock(productId);
     }
+
+    @PostMapping("/check-stock")
+    public Boolean checkProductStock(@RequestBody  List<StockRequestDto> stockRequestDtoList){
+        return stockService.checkStock(stockRequestDtoList);
+    }
+
+
 }

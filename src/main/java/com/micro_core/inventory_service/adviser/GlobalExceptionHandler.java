@@ -1,6 +1,7 @@
 package com.micro_core.inventory_service.adviser;
 
 import com.micro_core.inventory_service.exceptions.ResourceNotFoundException;
+import com.micro_core.inventory_service.exceptions.StockValidationException;
 import com.micro_core.inventory_service.util.ExceptionResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,19 @@ public class GlobalExceptionHandler {
                 .timestamp(LocalDateTime.now())
                 .status(HttpStatus.NOT_FOUND.value())
                 .error(HttpStatus.NOT_FOUND.getReasonPhrase())
+                .message(ex.getMessage())
+                .path(request.getDescription(false).replace("uri=", ""))
+                .build();
+        return new ResponseEntity<>(exceptionResponseDto, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(StockValidationException.class)
+    public ResponseEntity<ExceptionResponseDto> handleStockValidationException(StockValidationException ex, WebRequest request){
+
+        ExceptionResponseDto exceptionResponseDto = ExceptionResponseDto.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .error("Stock Validation Failed")
                 .message(ex.getMessage())
                 .path(request.getDescription(false).replace("uri=", ""))
                 .build();

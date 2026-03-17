@@ -9,4 +9,6 @@ public interface StockService {
     public void stockUpdate(List<StockRequestDto> stockRequestDto);
 
     public List<StockResponseDto> getStock(List<Long> productId);
+
+    public boolean checkStock(List<StockRequestDto> productIds);
 }
