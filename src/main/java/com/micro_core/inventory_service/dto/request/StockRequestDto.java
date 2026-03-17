@@ -1,5 +1,6 @@
 package com.micro_core.inventory_service.dto.request;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Getter
@@ -8,6 +9,10 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class StockRequestDto {
+
+    @NotNull(message = "Product ID is required")
     private Long productId;
+
+    @NotNull(message = "Quantity is required")
     private Integer quantity;
 }
