@@ -5,11 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResponseProductDto {
     private String productName;
-    private String sku;
+    private String skuCode;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

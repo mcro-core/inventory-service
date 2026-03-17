@@ -69,7 +69,7 @@ public class StockServiceImpl implements StockService {
                     if(stock.getQuantity() < product.getQuantity()){
                         ResponseProductDto productDetails = this.getProductShortDetails(product.getProductId());
                         throw new StockValidationException(String.format("Product %s (%s) is currently out of stock. Only %d units available.",
-                                productDetails.getProductName(), productDetails.getSku(), stock.getQuantity()));
+                                productDetails.getProductName(), productDetails.getSkuCode(), stock.getQuantity()));
                     }
                 }else{
                     throw new ResourceNotFoundException(String.format("%d this product id not found !", product.getProductId()));
